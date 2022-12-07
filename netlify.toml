@@ -1,0 +1,6 @@
+[[redirects]]
+  from = "/api"
+  to = "https://bc.game"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
