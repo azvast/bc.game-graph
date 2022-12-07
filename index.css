@@ -71,3 +71,8 @@
   .mt-10 {
     margin-top: 10px;
   }
+
+  #game_verify_submit {
+    width: 120px;
+  }
+  

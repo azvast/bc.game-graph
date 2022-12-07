@@ -23,18 +23,24 @@ $('.tabs ul li a').click(function () {
 
 function enterLoadState() {
   $('#game_hash_input').parent().addClass('is-loading');
-  $('#chart_plus_1_submit, #chart_plus_10_submit, #chart_plus_100_submit').addClass('is-loading');
-  $('#game_hash_input, #game_amount_input').attr('disabled', 'disabled');
+  $('#game_verify_submit, #chart_plus_1_submit, #chart_plus_10_submit, #chart_plus_100_submit').addClass('is-loading');
+  $('#game_hash_input, #game_amount_input, #game_verify_submit').attr('disabled', 'disabled');
   $('#game_verify_table').html('');
 }
 function exitLoadState() {
   $('#game_hash_input').parent().removeClass('is-loading');
-  $('#chart_plus_1_submit, #chart_plus_10_submit, #chart_plus_100_submit').removeClass('is-loading');
-  $('#game_hash_input, #game_amount_input').removeAttr("disabled");
+  $('#game_verify_submit, #chart_plus_1_submit, #chart_plus_10_submit, #chart_plus_100_submit').removeClass('is-loading');
+  $('#game_hash_input, #game_amount_input, #game_verify_submit').removeAttr("disabled");
 }
 
 var isVerifying = false;
 var data = []
+
+$('#game_verify_submit').on('click', () => {
+  const gameHash = $('#game_hash_input').val();
+  const gameAmount = Number($('#game_amount_input').val());
+  verify(gameHash, gameAmount);
+});
 
 function verify(gameHash, gameAmount) {
   if (isVerifying) return;
@@ -169,6 +175,12 @@ $('#chart_plus_100_submit').on('click', () => {
 $('#game_amount_input').on('keyup', () => {
   if ($('#game_amount_input').val() >= 10000) {
     if ($('#game_verify_warning').length) return;
+    $('#game_verify_submit').parent().append(
+      $('<span/>').attr({
+        'id': 'game_verify_warning',
+        'class': 'tag is-warning'
+      }).text("Verifying a huge amount of games may consume more ressources from your CPU")
+    );
   } else {
     if ($('#game_verify_warning').length) {
       $('#game_verify_warning').remove();
@@ -237,7 +249,7 @@ function* gameResults(gameHash, gameAmount) {
   let prevHash = null;
   for (let index = 0; index < gameAmount; index++) {
     let hash = String(prevHash ? CryptoJS.SHA256(String(prevHash)) : gameHash);
-    let bust = gameResult(hash, '000000000000000000030587dd9ded1fcc5d603652da58deb670319bd2e09445');
+    let bust = gameResult(hash, '0000000000000000004d6ec16dafe9d8370958664c1dc422f452892264c59526');
     yield { hash, bust }
 
     prevHash = hash;
@@ -474,3 +486,5 @@ function lineChart(settings) {
 
   return svg
 }
+
+$('#game_verify_submit').click();
