@@ -3,7 +3,7 @@ window.addEventListener('message', (event) => {
   if (event.data?.hash) {
     $('#game_hash_input').val(event.data?.hash);
 	  const gameAmount = Number($('#game_amount_input').val());
-	  verify(gameHash, gameAmount);
+	  verify(event.data?.hash, gameAmount);
   }
 });
 
