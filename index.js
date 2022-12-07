@@ -34,17 +34,6 @@ $('#game_verify_submit').on('click', () => {
 });
 
 $('#game_paste_verify_submit').on('click', () => {
-  fetch('https://bc.game/api/crash/result/recent/')
-    .then((res) => {
-      console.log(res);
-
-      const gameHash = res.data[0].hash;
-      $('#game_hash_input').val(gameHash);
-      
-      const gameAmount = Number($('#game_amount_input').val());
-      verify(gameHash, gameAmount);
-    });
-    
   fetch('/api/crash/result/recent/')
     .then((res) => {
     	console.log(res);
