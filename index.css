@@ -1,78 +1,77 @@
 .line {
-    fill: none;
-    stroke: steelblue;
-    stroke-width: 1.5;
-  }
-  
-  .line.avg {
-    stroke: #fff7e1;
-  }
-  
-  .line.data-line {
-    stroke: #001a8b;
-    stroke-width: 1;
-  }
-  
-  .line.sma-long-line {
-    stroke: #8bc34a;
-  }
-  
-  .line.sma-short-line {
-    stroke: #a2cf6e;
-  }
-  
-  .line.ema-long-line {
-    stroke: #d3e7d4;
-  }
-  
-  .line.ema-short-line {
-    stroke: #bbf3bd;
-  }
-  
-  .line.base-line {
-    fill: none;
-    stroke: #ffeaa4;
-    stroke-width: 1.5;
-  }
-  
-  .overlay {
-    fill: none;
-    pointer-events: all;
-  }
-  
-  /* Style the dots by assigning a fill and stroke */
-  
-  .dot {
-    fill: #001a8b;
-    stroke: #fff;
-  }
-  
-  .focus circle {
-    fill: none;
-    stroke: steelblue;
-  }
-  
-  .is-first {
-    background-color: rgba(195, 111, 24, 0.2);
-  }
-  
-  .is-over-median {
-    color: #44B39D;
-  }
-  
-  .is-at-median {
-    color: #3B3C3D;
-  }
-  
-  .is-under-median {
-    color: #BF4A67;
-  }
-  
-  .mt-10 {
-    margin-top: 10px;
-  }
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5;
+}
 
-  #game_verify_submit {
-    width: 120px;
-  }
-  
+.line.avg {
+  stroke: #fff7e1;
+}
+
+.line.data-line {
+  stroke: #001a8b;
+  stroke-width: 1;
+}
+
+.line.sma-long-line {
+  stroke: #8bc34a;
+}
+
+.line.sma-short-line {
+  stroke: #a2cf6e;
+}
+
+.line.ema-long-line {
+  stroke: #d3e7d4;
+}
+
+.line.ema-short-line {
+  stroke: #bbf3bd;
+}
+
+.line.base-line {
+  fill: none;
+  stroke: #ffeaa4;
+  stroke-width: 1.5;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+/* Style the dots by assigning a fill and stroke */
+
+.dot {
+  fill: #001a8b;
+  stroke: #fff;
+}
+
+.focus circle {
+  fill: none;
+  stroke: steelblue;
+}
+
+.is-first {
+  background-color: rgba(195, 111, 24, 0.2);
+}
+
+.is-over-median {
+  color: #44B39D;
+}
+
+.is-at-median {
+  color: #3B3C3D;
+}
+
+.is-under-median {
+  color: #BF4A67;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+#game_verify_submit {
+  width: 120px;
+}

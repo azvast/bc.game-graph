@@ -33,6 +33,8 @@ function exitLoadState() {
   $('#game_hash_input, #game_amount_input, #game_verify_submit').removeAttr("disabled");
 }
 
+var $range = $('.range-analysis');
+
 var isVerifying = false;
 var data = []
 
@@ -46,14 +48,73 @@ function verify(gameHash, gameAmount) {
   if (isVerifying) return;
   isVerifying = true;
   enterLoadState()
+  $range.empty();
 
   data = []
+  var index = 0
   for (let item of gameResults(gameHash, gameAmount)) {
     setTimeout(addTableRow.bind(null, item.hash, item.bust, data.length), data.length * 1)
-    data.unshift(item)
+    data.unshift({...item, index: ++index })
   }
 
+  // Range Analysis
+  [5, 10, 20, 50, 100].forEach(v => showRangeAnalysis(data, v));
+
   drawChart()
+}
+
+function showRangeAnalysis(data, bust) {
+  var aboveItems = data.filter(v => v.bust >= bust);
+
+  var delta = 0, totalDelta = 0, minDelta = 99999, avgDelta = 0, maxDelta = 0;
+  var aboveRounds = '';
+
+  var lastIndex = 0;
+  aboveItems.reverse().forEach(item => {
+    aboveRounds && (aboveRounds += ', ');
+    aboveRounds += `x${item.bust}/${item.index}`;
+
+    if (lastIndex > 0) {
+      delta = (item.index - lastIndex);
+
+      if (delta < minDelta) {
+        minDelta = delta;
+      }
+
+      if (delta > maxDelta) {
+        maxDelta = delta;
+      }
+
+      totalDelta += delta;
+    }
+
+    lastIndex = item.index;
+  });
+  avgDelta = totalDelta / aboveItems.length;
+
+  if (!aboveItems.length) {
+    minDelta = avgDelta = maxDelta = 0;
+  }
+
+  if (aboveItems.length === 1) {
+    minDelta = avgDelta = maxDelta = aboveItems[0].index;
+  }
+
+  var $div = $('<div>').css('margin-bottom', 10);
+  var $label = $('<label>').text(`Above x${bust} : ${aboveItems.length}`).css('font-weight', 'bold').css('color', '#20ad6c');
+  var $label2 = $('<label>').text(subString(aboveRounds, 45));
+  var $label3 = $('<label>').text(`Distance - min: ${minDelta}, avg: ${Math.floor(avgDelta)}, max: ${maxDelta}`).css('font-weight', '500');
+
+  [$label, $label2, $label3].forEach(el => $div.append(el.css('display', 'block')));
+  $range.append($div);
+}
+
+function subString(text, limitLength) {
+  if (text.length > limitLength) {
+    return text.substring(0, limitLength) + '...';
+  } else {
+    return text;
+  }
 }
 
 function drawChart() {
@@ -308,42 +369,8 @@ function bustabitLineChart({ svg, data, options }) {
     .attr("x2", xScale(d3.max(data, xAccessor)))
     .attr("y1", yScale(0.5))
     .attr("y2", yScale(0.5))
-    .style('opacity', $('#chart-show-base-line').is(':checked') ? null : 'none')
+    .style('opacity', 0.5)
 
-  main.append("g")
-    .append("path")
-    .datum(data)
-    .attr("class", "line sma-long-line sma-line")
-    .attr("d", d3.line()
-      .defined(function (d) { return !isNaN(d.sma_long) })
-      .x(lineX)
-      .y(function (d) { return yScale(d.sma_long); }))
-    .style('display', $('#chart-show-sma-line').is(':checked') ? null : 'none')
-  main.append("g")
-    .append("path")
-    .datum(data)
-    .attr("class", "line sma-short-line sma-line")
-    .attr("d", d3.line()
-      .defined(function (d) { return !isNaN(d.sma_short) })
-      .x(lineX)
-      .y(function (d) { return yScale(d.sma_short); }))
-    .style('display', $('#chart-show-sma-line').is(':checked') ? null : 'none')
-  main.append("g").append("path")
-    .datum(data)
-    .attr("class", "line ema-long-line ema-line")
-    .attr("d", d3.line()
-      .defined(function (d) { return !isNaN(d.ema_long) })
-      .x(lineX)
-      .y(function (d) { return yScale(d.ema_long); }))
-    .style('display', $('#chart-show-ema-line').is(':checked') ? null : 'none')
-  main.append("g").append("path")
-    .datum(data)
-    .attr("class", "line ema-short-line ema-line")
-    .attr("d", d3.line()
-      .defined(function (d) { return !isNaN(d.ema_short) })
-      .x(lineX)
-      .y(function (d) { return yScale(d.ema_short); }))
-    .style('display', $('#chart-show-ema-line').is(':checked') ? null : 'none')
   return svg
 }
 
@@ -481,7 +508,7 @@ function lineChart(settings) {
     focus.style('display', null).attr("transform", "translate(" + lineX(d, dindex) + "," + lineY(d, dindex) + ")");
 
     let color = d.bust == 1.98 ? 'orange' : (d.bust > 1.98 ? 'green' : 'red')
-    focus.select("text").attr('fill', color).text('x ' + d.bust);
+    focus.select("text").attr('fill', color).text(`x ${d.bust} / ${d.index}`);
   }
 
   return svg

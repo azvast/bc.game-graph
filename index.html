@@ -92,55 +92,12 @@
                 <div class="is-hidden">
                     <div class="columns">
                         <div class="column">
-                            <h4 class="title is-4">Technical Analysis</h4>
-                            <div class="field">
-                                <ul>
-                                    <li style="display: inline; margin-right: 20px">
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="chart-show-base-line" checked>
-                                            <label for="chart-show-base-line">x 1.98</label>
-                                        </div>
-                                    </li>
-                                    <li style="display: inline; margin-right: 20px">
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="chart-show-data-line" checked>
-                                            <label for="chart-show-data-line">Games</label>
-                                        </div>
-                                    </li>
-                                    <li style="display: inline; margin-right: 20px">
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="chart-show-sma-line">
-                                            <label for="chart-show-sma-line">SMA</label>
-                                        </div>
-                                    </li>
-                                    <li style="display: inline; margin-right: 20px">
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="chart-show-ema-line" checked>
-                                            <label for="chart-show-ema-line">EMA</label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <hr />
-                            <div class="sma-line">
-                                <label class="label">SMA</label>
-                                <input class="input" type="number" min="1" step="1" id="sma_long_input"
-                                    placeholder="SMA Long Period" value="40" style="max-width: 70px">
-                                <input class="input" type="number" min="1" step="1" id="sma_short_input"
-                                    placeholder="SMA Short Period" value="10" style="max-width: 70px">
-                            </div>
-                            <div class="ema-line">
-                                <label class="label">EMA</label>
-                                <input class="input" type="number" min="1" step="1" id="ema_long_input"
-                                    placeholder="EMA Long Period" value="50" style="max-width: 70px">
-                                <input class="input" type="number" min="1" step="1" id="ema_short_input"
-                                    placeholder="EMA Short Period" value="10" style="max-width: 70px">
-                            </div>
+                            <h4 class="title is-4">Range Analysis</h4>
+                            <div class="range-analysis"></div>
                         </div>
                         <div class="column">
                             <svg id="multiplier_averages_chart" width="960" height="500"></svg>
                         </div>
-
                     </div>
                 </div>
             </div>
