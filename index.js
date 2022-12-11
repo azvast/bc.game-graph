@@ -249,7 +249,7 @@ function* gameResults(gameHash, gameAmount) {
   let prevHash = null;
   for (let index = 0; index < gameAmount; index++) {
     let hash = String(prevHash ? CryptoJS.SHA256(String(prevHash)) : gameHash);
-    let bust = gameResult(hash, '0000000000000000004d6ec16dafe9d8370958664c1dc422f452892264c59526');
+    let bust = gameResult(hash, '000000000000000000030587dd9ded1fcc5d603652da58deb670319bd2e09445');
     yield { hash, bust }
 
     prevHash = hash;
