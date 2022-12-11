@@ -214,6 +214,10 @@ function gameResultsAdd(data, amount) {
     setTimeout(addTableRow.bind(null, item.hash, item.bust, data.length), data.length * 1)
     data.unshift(item)
   }
+
+  // Range Analysis
+  [5, 10, 20, 50, 100].forEach(v => showRangeAnalysis(data, v));
+
   drawChart()
 }
 
