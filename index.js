@@ -114,6 +114,8 @@ function showRangeAnalysis(data, bust) {
 }
 
 function subString(text, limitLength) {
+  return text;
+
   if (text.length > limitLength) {
     return text.substring(0, limitLength) + '...';
   } else {
@@ -124,47 +126,22 @@ function subString(text, limitLength) {
 function drawChart() {
   let svg = d3.select("#multiplier_averages_chart").html('')
   bustabitLineChart({ svg, data })
+
+  // rev = data.reverse();
+  // for(i = 49; i < 53; i++) {
+  //   console.log(rev[i].index, rev[i].bust);
+  // }
+  // console.log('---------------')
 }
-
-// line chart checkboxes to show/hide lines
-$(document).ready(function () {
-  ['base-line', 'data-line', 'ema-line', 'sma-line'].forEach(linename => {
-    function handleChange() {
-      let $this = this
-      if (!($this instanceof jQuery)) {
-        $this = $(this)
-      }
-      let linename = $this.attr('id').replace('chart-show-', '')
-      if ($this.is(':checked')) {
-        $(`.${linename}`).fadeIn()
-      } else {
-        $(`.${linename}`).fadeOut()
-      }
-    }
-    let $checkbox = $(`#chart-show-${linename}`)
-    $checkbox.on('change', handleChange);
-    handleChange.call($checkbox)
-  })
-
-
-  $('#chart-show-data-line').on('change', function () {
-    if ($(this).is(':checked')) {
-      $('.dot, .focus').fadeIn();
-      $('.overlay').attr('style', null)
-    } else {
-      $('.dot, .focus').fadeOut();
-      $('.overlay').attr('style', 'display: none;')
-    }
-  })
-})
 
 function gameResultsAdd(data, amount) {
   var index = data[0].index;
+
   for (let item of gameResults(data[0].hash, amount)) {
     setTimeout(addTableRow.bind(null, item.hash, item.bust, data.length), data.length * 1)
     data.unshift({...item, index: ++index })
   }
-
+  
   // Range Analysis
   $range.empty();
   [5, 10, 20, 50, 100].forEach(v => showRangeAnalysis(data, v))
@@ -231,7 +208,6 @@ $.fn.appendToWithIndex = function (to, index) {
   }
 };
 
-
 function prob(multiplier) {
   if (Array.isArray(multiplier)) {
     return multiplier.reduce((accumulator, item) => {
@@ -265,7 +241,7 @@ function* gameResults(gameHash, gameAmount) {
   let prevHash = null;
   for (let index = 0; index < gameAmount; index++) {
     let hash = String(prevHash ? CryptoJS.SHA256(String(prevHash)) : gameHash);
-    let bust = gameResult(hash, '000000000000000000030587dd9ded1fcc5d603652da58deb670319bd2e09445');
+    let bust = gameResult(hash, $('#game_salt_input').val());
     yield { hash, bust }
 
     prevHash = hash;
