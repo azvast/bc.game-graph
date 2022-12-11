@@ -87,7 +87,7 @@ function showRangeAnalysis(data, bust) {
 
       totalDelta += delta;
     }
-
+    
     lastIndex = item.index;
   });
   avgDelta = totalDelta / aboveItems.length;
@@ -98,6 +98,10 @@ function showRangeAnalysis(data, bust) {
 
   if (aboveItems.length === 1) {
     minDelta = avgDelta = maxDelta = aboveItems[0].index;
+  }
+
+  if (aboveItems.length === 2) {
+    avgDelta = maxDelta = aboveItems[1].index;
   }
 
   var $div = $('<div>').css('margin-bottom', 10);
