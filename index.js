@@ -96,7 +96,7 @@ function showRangeAnalysis(data, bust) {
 
     lastIndex = item.index;
   });
-  avgDelta = totalDelta / aboveItems.length;
+  avgDelta = totalDelta / (aboveItems.length - 1);
 
   if (!aboveItems.length) {
     minDelta = avgDelta = maxDelta = 0;
@@ -106,15 +106,11 @@ function showRangeAnalysis(data, bust) {
     minDelta = avgDelta = maxDelta = aboveItems[0].index;
   }
 
-  if (aboveItems.length === 2) {
-    avgDelta = maxDelta = aboveItems[1].index;
-  }
-
   var $div = $('<div>').css('margin-bottom', 10);
   var $label = $('<label>').text(`Above x${bust} : ${aboveItems.length}`).css('font-weight', 'bold').css('color', '#20ad6c');
   var $label2 = $('<label>').text(subString(aboveRounds, 45));
   var $label3 = $('<label>')
-    .text(`Distance - min: ${minDelta}, avg: ${Math.floor(avgDelta)}, max: ${maxDelta}`)
+    .text(`Distance - min: ${minDelta}, avg: ${Math.round(avgDelta)}, max: ${maxDelta}`)
     .css('font-weight', '500');
 
   [$label, $label2, $label3].forEach((el) => $div.append(el.css('display', 'block')));
@@ -132,12 +128,6 @@ function subString(text, limitLength) {
 function drawChart() {
   let svg = d3.select('#multiplier_averages_chart').html('');
   bustabitLineChart({ svg, data });
-
-  // rev = data.reverse();
-  // for(i = 49; i < 53; i++) {
-  //   console.log(rev[i].index, rev[i].bust);
-  // }
-  // console.log('---------------')
 }
 
 function gameResultsAdd(data, amount) {
