@@ -114,8 +114,6 @@ function showRangeAnalysis(data, bust) {
 }
 
 function subString(text, limitLength) {
-  return text;
-
   if (text.length > limitLength) {
     return text.substring(0, limitLength) + '...';
   } else {
@@ -136,8 +134,9 @@ function drawChart() {
 
 function gameResultsAdd(data, amount) {
   var index = data[0].index;
+  var hash = CryptoJS.SHA256(data[0].hash);
 
-  for (let item of gameResults(data[0].hash, amount)) {
+  for (let item of gameResults(hash, amount)) {
     setTimeout(addTableRow.bind(null, item.hash, item.bust, data.length), data.length * 1)
     data.unshift({...item, index: ++index })
   }
