@@ -210,9 +210,10 @@ $(document).ready(function () {
 })
 
 function gameResultsAdd(data, amount) {
+  var index = data[0].index;
   for (let item of gameResults(data[0].hash, amount)) {
     setTimeout(addTableRow.bind(null, item.hash, item.bust, data.length), data.length * 1)
-    data.unshift(item)
+    data.unshift({...item, index: ++index })
   }
 
   // Range Analysis
