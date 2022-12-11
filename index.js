@@ -118,63 +118,8 @@ function subString(text, limitLength) {
 }
 
 function drawChart() {
-
-  function sum(arr, func) {
-    func = func || function (d) { return d }
-    var len = arr.length;
-    var num = 0;
-    while (len--) num += Number(func(arr[len], len, arr));
-    return num;
-  }
-
-  function avg(arr, idx, range, func) {
-    func = func || function (d) { return d }
-    return sum(arr.map(func).slice(idx - range, idx)) / range;
-  }
-
-  function sma(arr, range, key, func) {
-    if (!Array.isArray(arr)) {
-      throw new TypeError('expected first argument to be an array');
-    }
-    key = key || `sma_${range}`;
-    var len = arr.length;
-    var i = range - 1;
-    while (++i < len) {
-      arr[i][key] = avg(arr, i, range, func)
-    }
-    return arr;
-  }
-
-  function ema(arr, range, key, func) {
-    if (!Array.isArray(arr)) {
-      throw new TypeError('expected first argument to be an array');
-    }
-    key = key || `ema_${range}`;
-    func = func || function (d) { return d }
-    var len = arr.length;
-    var k = 2 / (range + 1);
-    // first item is just the same as the first item in the input
-    arr[0][key] = func(arr[0])
-    arr[0][key] = arr[0][key]
-    // for the rest of the items, they are computed with the previous one
-
-    for (var i = 1; i < len; i++) {
-
-      arr[i][key] = (func(arr[i]) * k + arr[i - 1][key] * (1 - k));
-      arr[i][key] = arr[i][key]
-    }
-    return arr;
-  }
-
-  sma(data, Number($("#sma_short_input").val()), 'sma_short', d => prob(d.bust))
-  sma(data, Number($("#sma_long_input").val()), 'sma_long', d => prob(d.bust))
-
-  ema(data, Number($("#ema_short_input").val()), 'ema_short', d => prob(d.bust))
-  // ema(data, Number($("#ema_long_input").val()), 'ema_long', d => prob(d.bust))
-
   let svg = d3.select("#multiplier_averages_chart").html('')
   bustabitLineChart({ svg, data })
-
 }
 
 // line chart checkboxes to show/hide lines
