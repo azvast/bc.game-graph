@@ -339,7 +339,7 @@ function drawChart() {
             offset: false,
           },
           ticks: {
-            autoSkip: false,
+            autoSkip: true,
           },
         },
         y: {
