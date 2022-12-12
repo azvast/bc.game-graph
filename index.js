@@ -125,11 +125,6 @@ function subString(text, limitLength) {
   }
 }
 
-function drawChart() {
-  let svg = d3.select('#multiplier_averages_chart').html('');
-  bustabitLineChart({ svg, data });
-}
-
 function gameResultsAdd(data, amount) {
   var index = data[0].index;
   var hash = CryptoJS.SHA256(data[0].hash);
@@ -308,201 +303,62 @@ function gameResult(seed, salt) {
   return Math.max(1, result / 100);
 }
 
-function bustabitLineChart({ svg, data, options }) {
-  arguments[0].options = Object.assign(
-    {
-      xAccessor: function (d, i) {
-        return i;
+var mychart = null;
+
+function drawChart() {
+  const ctx = document.getElementById('chartjs_container');
+
+  const chartData = {
+    labels: data.map((d) => d.bust),
+    datasets: [
+      {
+        label: '',
+        data: data.map((d) => d.bust),
+        backgroundColor: (ctx) => {
+          if (ctx.raw < 2) {
+            return 'red';
+          }
+
+          if (ctx.raw >= 20) {
+            return 'yellow';
+          }
+
+          return 'green';
+        },
       },
-      yAccessor: function (d) {
-        return prob(d.bust);
+    ],
+  };
+
+  const config = {
+    type: 'bar',
+    data: chartData,
+    options: {
+      scales: {
+        x: {
+          grid: {
+            offset: false,
+          },
+          ticks: {
+            autoSkip: false,
+          },
+        },
+        y: {
+          beginAtZero: true,
+        },
       },
-      xFormat: function (x) {
-        return x;
-      },
-      yFormat: function (y) {
-        return y * 100 + ' %';
+      plugins: {
+        legend: {
+          display: false,
+        },
       },
     },
-    arguments[0].options
-  );
-
-  const settings = lineChartSettings(arguments[0]);
-
-  svg = lineChart(settings);
-
-  const { width, height, xScale, yScale, xAccessor, yAccessor, lineX } = settings;
-
-  // y-axis (right)
-  const main = svg.select('g');
-
-  main
-    .append('g')
-    .attr('class', 'y-axis axis')
-    .attr('transform', 'translate( ' + width + ', 0 )')
-    .call(
-      d3.axisRight(yScale).tickFormat((y) => {
-        return 'x ' + Math.floor(99 / y) / 100;
-      })
-    );
-
-  main
-    .append('g')
-    .append('line')
-    .attr('class', 'line base-line')
-    .attr('x1', xScale(0))
-    .attr('x2', xScale(d3.max(data, xAccessor)))
-    .attr('y1', yScale(0.5))
-    .attr('y2', yScale(0.5))
-    .style('opacity', 0.5);
-
-  return svg;
-}
-
-const lineChartSettings = (function () {
-  function LineChartSettings({ svg, data, options }) {
-    options = Object.assign({}, this.defaultOptions, options);
-
-    const { xAccessor, yAccessor, xFormat, yFormat, margin } = options;
-
-    const width = svg.attr('width') - margin.left - margin.right,
-      height = svg.attr('height') - margin.top - margin.bottom,
-      xScale = d3
-        .scaleLinear()
-        .domain([d3.min(data, xAccessor), d3.max(data, xAccessor)])
-        .range([0, width]),
-      yScale = d3
-        .scaleLinear()
-        .domain([d3.min(data, yAccessor), d3.max(data, yAccessor)])
-        .range([0, height])
-        .nice(),
-      xAxis = d3.axisBottom(xScale).tickFormat(xFormat),
-      yAxis = d3.axisLeft(yScale).tickFormat(yFormat),
-      line = d3
-        .line()
-        .x(function (d, i) {
-          return xScale(xAccessor(d, i));
-        })
-        .y(function (d, i) {
-          return yScale(yAccessor(d, i));
-        }),
-      lineX = line.x(),
-      lineY = line.y();
-
-    this.svg = svg;
-    this.data = data;
-    this.xAccessor = xAccessor;
-    this.yAccessor = yAccessor;
-    this.xFormat = xFormat;
-    this.yFormat = yFormat;
-    this.margin = margin;
-    this.width = width;
-    this.height = height;
-    this.xScale = xScale;
-    this.yScale = yScale;
-    this.line = line;
-    this.xAxis = xAxis;
-    this.yAxis = yAxis;
-    this.lineX = lineX;
-    this.lineY = lineY;
-  }
-  LineChartSettings.prototype = {
-    defaultOptions: {
-      xAccessor: function (d, i) {
-        return i;
-      },
-      yAccessor: function (d) {
-        return d;
-      },
-      xFormat: function (x) {
-        return x;
-      },
-      yFormat: function (y) {
-        return y;
-      },
-      margin: { top: 50, right: 50, bottom: 50, left: 50 },
-    },
   };
-  return function ({ svg, data, options }) {
-    return new LineChartSettings(arguments[0]);
-  };
-})();
 
-function lineChart(settings) {
-  const { svg, data, xAccessor, yAccessor, xFormat, yFormat, margin, width, height, xScale, yScale, line, xAxis, yAxis, lineX, lineY } = settings;
-
-  // container, to apply margin
-  const main = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
-  // x-axis
-  main
-    .append('g')
-    .attr('class', 'x-axis axis')
-    .attr('transform', 'translate(0,' + height + ')')
-    .call(xAxis);
-  // y-axis
-  main.append('g').attr('class', 'y-axis axis').call(yAxis);
-
-  // data line
-  main.append('g').append('path').datum(data).attr('class', 'line data-line').attr('d', line);
-
-  // append a circle for each data point
-  const dotRadius = 3;
-  main.append('g').selectAll('.dot').data(data).enter().append('circle').attr('class', 'dot').attr('cx', lineX).attr('cy', lineY).attr('r', dotRadius);
-
-  var focus = main.append('g').attr('class', 'focus').style('display', 'none');
-  focus.append('circle').attr('r', dotRadius * 0.9);
-  focus
-    .append('text')
-    .attr('x', dotRadius * 0.9 + 10)
-    .attr('dy', '.35em');
-
-  main
-    .append('rect')
-    .attr('class', 'overlay')
-    .attr('width', width)
-    .attr('height', height)
-    .on('mouseover', function () {
-      focus
-        .style('display', null)
-        .transition()
-        .styleTween('opacity', function () {
-          return d3.interpolate(0, 1);
-        });
-    })
-    .on('mouseout', function () {
-      focus
-        .transition()
-        .styleTween('opacity', function () {
-          return d3.interpolate(1, 0);
-        })
-        .transition()
-        .style('display', 'none');
-    })
-    .on('mousemove', mousemove);
-
-  const xCoordinates = data.map(xAccessor);
-  function mousemove() {
-    var x0 = xScale.invert(d3.mouse(this)[0]);
-    var i = d3.bisectLeft(xCoordinates, x0, 1),
-      d0 = data[i - 1],
-      d1 = data[i];
-    if (!d0 || !d1) return;
-    var d, dindex;
-    if (x0 - xAccessor(d0, i - 1) > xAccessor(d1, i) - x0) {
-      d = d1;
-      dindex = i;
-    } else {
-      d = d0;
-      dindex = i - 1;
-    }
-    focus.style('display', null).attr('transform', 'translate(' + lineX(d, dindex) + ',' + lineY(d, dindex) + ')');
-
-    let color = d.bust == 1.98 ? 'orange' : d.bust > 1.98 ? 'green' : 'red';
-    focus.select('text').attr('fill', color).text(`x ${d.bust} / ${d.index}`);
+  if (mychart) {
+    mychart.destroy();
   }
 
-  return svg;
+  mychart = new Chart(ctx, config);
 }
 
 $('#game_verify_submit').click();

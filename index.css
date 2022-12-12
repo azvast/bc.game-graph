@@ -85,3 +85,8 @@
   right: 6px;
   top: 6px;
 }
+
+#chartjs_container {
+  width: 960px !important;
+  height: 500px !important;
+}
