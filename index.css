@@ -75,3 +75,13 @@
 #game_verify_submit {
   width: 120px;
 }
+
+.salt-input {
+  position: relative;
+}
+
+.salt-change-button-group {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+}

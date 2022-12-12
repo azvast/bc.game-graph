@@ -473,3 +473,16 @@ function lineChart(settings) {
 }
 
 $('#game_verify_submit').click();
+
+// Salt change
+$('#bustabit_salt_button').on('click', () => {
+  $('#game_salt_input').val('0000000000000000004d6ec16dafe9d8370958664c1dc422f452892264c59526');
+});
+
+$('#ethercrash_salt_button').on('click', () => {
+  $('#game_salt_input').val('d8b8a187d5865a733680b4bf4d612afec9c6829285d77f438cd70695fb946801');
+});
+
+$('#bcgame_salt_button').on('click', () => {
+  $('#game_salt_input').val('000000000000000000030587dd9ded1fcc5d603652da58deb670319bd2e09445');
+});
