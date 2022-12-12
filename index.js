@@ -243,14 +243,47 @@ prob.invert = function (probability) {
 };
 
 function* gameResults(gameHash, gameAmount) {
+  let salt = $('#game_salt_input').val();
   let prevHash = null;
   for (let index = 0; index < gameAmount; index++) {
     let hash = String(prevHash ? CryptoJS.SHA256(String(prevHash)) : gameHash);
-    let bust = gameResult(hash, $('#game_salt_input').val());
+    let bust = salt.startsWith('0x') ? gameResultForEthercrash(hash, salt) : gameResult(hash, salt);
     yield { hash, bust };
 
     prevHash = hash;
   }
+}
+
+function divisible(hash, mod) {
+  // So ABCDEFGHIJ should be chunked like  AB CDEF GHIJ
+  var val = 0;
+
+  var o = hash.length % 4;
+  for (var i = o > 0 ? o - 4 : 0; i < hash.length; i += 4) {
+    val = ((val << 16) + parseInt(hash.substring(i, i + 4), 16)) % mod;
+  }
+
+  return val === 0;
+}
+
+function hmac(key, v) {
+  var hmacHasher = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, key);
+  return hmacHasher.finalize(v).toString();
+}
+
+function gameResultForEthercrash(serverSeed, salt) {
+  // see: provably fair seeding event https://bitcointalk.org/index.php?topic=4959619
+  //Block 6217364 0xd8b8a187d5865a733680b4bf4d612afec9c6829285d77f438cd70695fb946801
+  var hash = hmac(serverSeed, salt);
+
+  // In 1 of 101 games the game crashes instantly.
+  if (divisible(hash, 101)) return 0;
+
+  // Use the most significant 52-bit from the hash to calculate the crash point
+  var h = parseInt(hash.slice(0, 52 / 4), 16);
+  var e = Math.pow(2, 52);
+
+  return (Math.floor((100 * e - h) / (e - h)) / 100).toFixed(2);
 }
 
 function gameResult(seed, salt) {
@@ -480,7 +513,7 @@ $('#bustabit_salt_button').on('click', () => {
 });
 
 $('#ethercrash_salt_button').on('click', () => {
-  $('#game_salt_input').val('d8b8a187d5865a733680b4bf4d612afec9c6829285d77f438cd70695fb946801');
+  $('#game_salt_input').val('0xd8b8a187d5865a733680b4bf4d612afec9c6829285d77f438cd70695fb946801');
 });
 
 $('#bcgame_salt_button').on('click', () => {
