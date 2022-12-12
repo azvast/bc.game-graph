@@ -319,7 +319,7 @@ function drawChart() {
             return 'red';
           }
 
-          if (ctx.raw >= 20) {
+          if (ctx.raw >= 10) {
             return 'yellow';
           }
 
