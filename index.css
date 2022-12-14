@@ -60,10 +60,6 @@
   color: #44B39D;
 }
 
-.is-at-median {
-  color: #3B3C3D;
-}
-
 .is-under-median {
   color: #BF4A67;
 }
@@ -90,3 +86,9 @@
   width: 1400px !important;
   height: 500px !important;
 }
+
+.seq-red-text {
+  color: red;
+  font-weight: bold;
+}
+

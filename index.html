@@ -35,7 +35,7 @@
     <meta name="twitter:image:src" content="img/bc-graph.png" />
     <meta name="author" content="Albert Eichberg" />
 
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="./index.css" />
 
@@ -77,20 +77,30 @@
             </div>
           </div>
           <div class="field has-addons">
-            <p class="control has-icons-left">
-              <input class="input" type="number" size="5" id="game_amount_input" min="1" max="100000" step="1" placeholder="Amount of games" value="50" />
-              <span class="icon is-small is-left">
-                <i class="fa fa-hashtag"></i>
-              </span>
-            </p>
-            <div class="control">
-              <a class="button is-secondary" id="chart_plus_1_submit"> +1 Game </a>
+            <div class="field has-addons">
+              <p class="control has-icons-left">
+                <input class="input" type="number" id="game_amount_input" min="1" max="100000" step="1" placeholder="Amount of games" value="50" />
+                <span class="icon is-small is-left">
+                  <i class="fa fa-hashtag"></i>
+                </span>
+              </p>
+              <div class="control">
+                <a class="button is-secondary" id="chart_plus_1_submit"> +1 Game </a>
+              </div>
+              <div class="control">
+                <a class="button is-secondary" id="chart_plus_10_submit"> +10 Games </a>
+              </div>
+              <div class="control">
+                <a class="button is-secondary" id="chart_plus_100_submit"> +100 Games </a>
+              </div>
             </div>
-            <div class="control">
-              <a class="button is-secondary" id="chart_plus_10_submit"> +10 Games </a>
-            </div>
-            <div class="control">
-              <a class="button is-secondary" id="chart_plus_100_submit"> +100 Games </a>
+            <div class="field ml-5">
+              <p class="control has-icons-left">
+                <input class="input" type="number" id="game_red_thresold_input" min="1" max="1000" step="0.1" placeholder="Red Thresold" value="2.0" />
+                <span class="icon is-small is-left">
+                  <i class="fa fa-hashtag"></i>
+                </span>
+              </p>
             </div>
           </div>
           <div class="field">
@@ -129,12 +139,14 @@
                 <tbody id="game_verify_table"></tbody>
               </table>
             </div>
+            <label class="seq-red-text ml-2">Max Red Sequence Count: <span id="game_max_red_sequence_count_in_table">0</span></label>
           </div>
           <div class="is-hidden">
             <div class="columns">
               <div class="column">
                 <h4 class="title is-4">Range Analysis</h4>
                 <div class="range-analysis"></div>
+                <label class="seq-red-text">Max Red Sequence Count: <span id="game_max_red_sequence_count_in_chart">0</span></label>
               </div>
               <div class="column">
                 <canvas id="chartjs_container" width="1400" height="500"></canvas>

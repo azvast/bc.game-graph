@@ -39,8 +39,11 @@ var $range = $('.range-analysis');
 
 var isVerifying = false;
 var data = [];
+var gameRedThresold = 2.0;
 
 $('#game_verify_submit').on('click', () => {
+  gameRedThresold = Number($('#game_red_thresold_input').val());
+  
   const gameHash = $('#game_hash_input').val();
   const gameAmount = Number($('#game_amount_input').val());
   verify(gameHash, gameAmount);
@@ -62,6 +65,7 @@ function verify(gameHash, gameAmount) {
   // Range Analysis
   [5, 10, 20, 50, 100].forEach((v) => showRangeAnalysis(data, v));
 
+  showSequenceRed();
   drawChart();
 }
 
@@ -138,7 +142,25 @@ function gameResultsAdd(data, amount) {
   $range.empty();
   [5, 10, 20, 50, 100].forEach((v) => showRangeAnalysis(data, v));
 
+  showSequenceRed();
   drawChart();
+}
+
+function showSequenceRed() {
+  var seq_red_count = 0;
+  var max_seq_red_count = 0;
+
+  data.forEach(d => {
+    if (d.bust < gameRedThresold) {
+      seq_red_count++;
+    } else {
+      max_seq_red_count = Math.max(seq_red_count, max_seq_red_count);
+      seq_red_count = 0;
+    }
+  });
+
+  $('#game_max_red_sequence_count_in_table').text(max_seq_red_count);
+  $('#game_max_red_sequence_count_in_chart').text(max_seq_red_count);
 }
 
 $('#chart_plus_1_submit').on('click', () => {
@@ -187,7 +209,7 @@ const addTableRow = (hash, bust, index) => {
       $('<td/>')
         .text(bust)
         .attr({
-          class: bust === 1.98 ? 'is-at-median' : bust > 1.98 ? 'is-over-median' : 'is-under-median',
+          class: bust >= gameRedThresold ? 'is-over-median' : 'is-under-median',
         })
     )
     .appendToWithIndex($('#game_verify_table'), index);
@@ -315,15 +337,11 @@ function drawChart() {
         label: '',
         data: data.map((d) => d.bust),
         backgroundColor: (ctx) => {
-          if (ctx.raw < 2) {
+          if (ctx.raw < gameRedThresold) {
             return 'red';
-          }
-
-          if (ctx.raw > 50) {
-            return '#e69b00';
-          }
-
-          if (ctx.raw >= 10) {
+          } else if (ctx.raw > 50) {
+            return '#e69b00';  // dark yellow
+          } else if (ctx.raw >= 10) {
             return 'yellow';
           }
 
