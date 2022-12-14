@@ -319,6 +319,10 @@ function drawChart() {
             return 'red';
           }
 
+          if (ctx.raw > 50) {
+            return '#e69b00';
+          }
+
           if (ctx.raw >= 10) {
             return 'yellow';
           }
@@ -339,11 +343,12 @@ function drawChart() {
             offset: false,
           },
           ticks: {
-            autoSkip: false,
+            autoSkip: data.length > 50 ? true : false,
           },
         },
         y: {
           beginAtZero: true,
+          max: 50,
         },
       },
       plugins: {
