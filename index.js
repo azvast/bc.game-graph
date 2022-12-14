@@ -349,6 +349,11 @@ function drawChart() {
         y: {
           beginAtZero: true,
           max: 50,
+          ticks: {
+            callback: function (value, index, ticks) {
+              return value + ' x';
+            },
+          },
         },
       },
       plugins: {
