@@ -355,6 +355,7 @@ function drawChart() {
     type: 'bar',
     data: chartData,
     options: {
+      responsive: true,
       scales: {
         x: {
           grid: {

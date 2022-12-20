@@ -82,11 +82,6 @@
   top: 6px;
 }
 
-#chartjs_container {
-  width: 1400px !important;
-  height: 500px !important;
-}
-
 .seq-red-text {
   color: red;
   font-weight: bold;
