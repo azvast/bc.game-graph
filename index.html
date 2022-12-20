@@ -1,166 +1,172 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>BC Games Analyzer by Albert Eichberg</title>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="description" content="Useful blockchain games hash analyzer developed by Albert. You can use this analyzer for games like BC.Game, Bustabit, Ethercrash, etc..." />
-    <meta property="og:image:width" content="960" />
-    <meta property="og:image:height" content="585" />
-    <meta property="og:title" content="BC Graph by Albert Eichberg" />
-    <meta property="og:site_name" content="BC Graph by Albert Eichberg" />
-    <meta
-      property="og:description"
-      content="Useful blockchain games hash analyzer developed by Albert Eichberg. You can use this analyzer for games like BC.Game, Bustabit, Ethercrash, etc..."
-    />
-    <meta property="og:url" content="https://bcgraph.netlify.app/" />
-    <meta property="og:image" content="img/bc-graph.png" />
-    <!-- Schema.org markup for Google+ -->
-    <meta itemprop="name" content="BC Graph by Albert Eichberg" />
-    <meta
-      itemprop="description"
-      content="Useful blockchain games hash analyzer developed by Albert Eichberg. You can use this analyzer for games like BC.Game, Bustabit, Ethercrash, etc..."
-    />
-    <meta itemprop="image" content="img/bc-graph.png" />
-    <!-- Twitter Card data -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@alberteichberg" />
-    <meta name="twitter:title" content="BC Graph by Albert Eichberg" />
-    <meta
-      name="twitter:description"
-      content="Useful blockchain games hash analyzer developed by Albert Eichberg. You can use this analyzer for games like BC.Game, Bustabit, Ethercrash, etc..."
-    />
-    <meta name="twitter:image:src" content="img/bc-graph.png" />
-    <meta name="author" content="Albert Eichberg" />
+<head>
+  <title>BC Games Analyzer by Albert Eichberg</title>
 
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="./index.css" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="description"
+    content="Useful blockchain games hash analyzer developed by Albert. You can use this analyzer for games like BC.Game, Bustabit, Ethercrash, etc..." />
+  <meta property="og:image:width" content="960" />
+  <meta property="og:image:height" content="585" />
+  <meta property="og:title" content="BC Graph by Albert Eichberg" />
+  <meta property="og:site_name" content="BC Graph by Albert Eichberg" />
+  <meta property="og:description"
+    content="Useful blockchain games hash analyzer developed by Albert Eichberg. You can use this analyzer for games like BC.Game, Bustabit, Ethercrash, etc..." />
+  <meta property="og:url" content="https://bcgraph.netlify.app/" />
+  <meta property="og:image" content="img/bc-graph.png" />
+  <!-- Schema.org markup for Google+ -->
+  <meta itemprop="name" content="BC Graph by Albert Eichberg" />
+  <meta itemprop="description"
+    content="Useful blockchain games hash analyzer developed by Albert Eichberg. You can use this analyzer for games like BC.Game, Bustabit, Ethercrash, etc..." />
+  <meta itemprop="image" content="img/bc-graph.png" />
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@alberteichberg" />
+  <meta name="twitter:title" content="BC Graph by Albert Eichberg" />
+  <meta name="twitter:description"
+    content="Useful blockchain games hash analyzer developed by Albert Eichberg. You can use this analyzer for games like BC.Game, Bustabit, Ethercrash, etc..." />
+  <meta name="twitter:image:src" content="img/bc-graph.png" />
+  <meta name="author" content="Albert Eichberg" />
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" />
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="./index.css" />
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  </head>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"></script>
 
-  <body>
-    <section class="section">
-      <div class="box">
-        <div>
-          <div class="field">
-            <p class="control has-icons-left">
-              <input class="input" type="text" id="game_hash_input" placeholder="Game's hash (SHA256)" value="fcbd34149bb5c22086061366f7635c1856d128b09b3a49dae30b46a1ad15d8a8" />
-              <span class="icon is-small is-left">
-                <i class="fa fa-key"></i>
-              </span>
-            </p>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <section class="section">
+    <div class="box">
+      <div>
+        <div class="field">
+          <p class="control has-icons-left">
+            <input class="input" type="text" id="game_hash_input" placeholder="Game's hash (SHA256)"
+              value="fcbd34149bb5c22086061366f7635c1856d128b09b3a49dae30b46a1ad15d8a8" />
+            <span class="icon is-small is-left">
+              <i class="fa fa-key"></i>
+            </span>
+          </p>
+        </div>
+        <div class="field salt-input">
+          <p class="control has-icons-left">
+            <span class="icon is-small is-left">
+              <i class="fa fa-filter"></i>
+            </span>
+            <input class="input" type="text" id="game_salt_input" placeholder="Salt"
+              value="000000000000000000030587dd9ded1fcc5d603652da58deb670319bd2e09445" />
+          </p>
+          <div class="salt-change-button-group">
+            <button id="bustabit_salt_button">
+              bustabit.com
+            </button>
+            <button id="ethercrash_salt_button">
+              ethercrash.io
+            </button>
+            <button id="bcgame_salt_button">
+              bc.game
+            </button>
           </div>
-          <div class="field salt-input">
-            <p class="control has-icons-left">
-              <span class="icon is-small is-left">
-                <i class="fa fa-filter"></i>
-              </span>
-              <input class="input" type="text" id="game_salt_input" placeholder="Salt" value="000000000000000000030587dd9ded1fcc5d603652da58deb670319bd2e09445" />
-            </p>
-            <div class="salt-change-button-group">
-              <button id="bustabit_salt_button">
-                bustabit.com
-              </button>
-              <button id="ethercrash_salt_button">
-                ethercrash.io
-              </button>
-              <button id="bcgame_salt_button">
-                bc.game
-              </button>
-            </div>
-          </div>
+        </div>
+        <div class="field has-addons">
           <div class="field has-addons">
-            <div class="field has-addons">
-              <p class="control has-icons-left">
-                <input class="input" type="number" id="game_amount_input" min="1" max="100000" step="1" placeholder="Amount of games" value="50" />
-                <span class="icon is-small is-left">
-                  <i class="fa fa-hashtag"></i>
-                </span>
-              </p>
-              <div class="control">
-                <a class="button is-secondary" id="chart_plus_1_submit"> +1 Game </a>
-              </div>
-              <div class="control">
-                <a class="button is-secondary" id="chart_plus_10_submit"> +10 Games </a>
-              </div>
-              <div class="control">
-                <a class="button is-secondary" id="chart_plus_100_submit"> +100 Games </a>
-              </div>
+            <p class="control has-icons-left">
+              <input class="input" type="number" id="game_amount_input" min="1" max="100000" step="1"
+                placeholder="Amount of games" value="50" />
+              <span class="icon is-small is-left">
+                <i class="fa fa-hashtag"></i>
+              </span>
+            </p>
+            <div class="control">
+              <a class="button is-secondary" id="chart_plus_1_submit"> +1 Game </a>
             </div>
-            <div class="field ml-5">
-              <p class="control has-icons-left">
-                <input class="input" type="number" id="game_red_thresold_input" min="1" max="1000" step="0.1" placeholder="Red Thresold" value="2.0" />
-                <span class="icon is-small is-left">
-                  <i class="fa fa-hashtag"></i>
-                </span>
-              </p>
+            <div class="control">
+              <a class="button is-secondary" id="chart_plus_10_submit"> +10 Games </a>
+            </div>
+            <div class="control">
+              <a class="button is-secondary" id="chart_plus_100_submit"> +100 Games </a>
             </div>
           </div>
-          <div class="field">
-            <p class="control">
-              <a class="button is-primary" id="game_verify_submit"> Verify </a>
+          <div class="field ml-5">
+            <p class="control has-icons-left">
+              <input class="input" type="number" id="game_red_thresold_input" min="1" max="1000" step="0.1"
+                placeholder="Red Thresold" value="2.0" />
+              <span class="icon is-small is-left">
+                <i class="fa fa-hashtag"></i>
+              </span>
             </p>
           </div>
         </div>
-        <br />
-        <div class="tabs" id="tabs">
-          <ul>
-            <li class="is-active">
-              <a>
-                <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
-                <span>Table</span>
-              </a>
-            </li>
-            <li>
-              <a>
-                <span class="icon is-small"><i class="fa fa-line-chart" aria-hidden="true"></i></span>
-                <span>Chart</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="tabs-content">
-          <div>
-            <div style="overflow-y: scroll; max-height: 500px">
-              <table class="table is-striped is-fullwidth is-hoverable is-narrow">
-                <thead>
-                  <tr>
-                    <th><b>Game's hash</b></th>
-                    <th><b>Bust</b></th>
-                  </tr>
-                </thead>
-                <tbody id="game_verify_table"></tbody>
-              </table>
-            </div>
-            <label class="seq-red-text ml-2">Max Red Sequence Count: <span id="game_max_red_sequence_count_in_table">0</span></label>
-          </div>
-          <div class="is-hidden">
-            <div class="columns">
-              <div class="column">
-                <h4 class="title is-4">Range Analysis</h4>
-                <div class="range-analysis"></div>
-                <label class="seq-red-text">Max Red Sequence Count: <span id="game_max_red_sequence_count_in_chart">0</span></label>
-              </div>
-              <div class="column">
-                <canvas id="chartjs_container" width="1400" height="500"></canvas>
-              </div>
-            </div>
-            <label>※ <b>x105.83/49</b> means that <b>x105.39</b> appeared <b>49</b> rounds before from now on.</label>
-            <a target="_blank" href="https://github.com/azvast/bc.game-graph">https://github.com/azvast/bc.game-graph</a>
-            <a target="_blank" href="https://github.com/azvast/bcgame-analyzer-extension">bc.game-analyzer-extension</a>
-            <br />
-          </div>
+        <div class="field">
+          <p class="control">
+            <a class="button is-primary" id="game_verify_submit"> Verify </a>
+          </p>
         </div>
       </div>
-    </section>
+      <br />
+      <div class="tabs" id="tabs">
+        <ul>
+          <li class="is-active">
+            <a>
+              <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
+              <span>Table</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span class="icon is-small"><i class="fa fa-line-chart" aria-hidden="true"></i></span>
+              <span>Chart</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div id="tabs-content">
+        <div>
+          <div style="overflow-y: scroll; max-height: 500px">
+            <table class="table is-striped is-fullwidth is-hoverable is-narrow">
+              <thead>
+                <tr>
+                  <th><b>Game's hash</b></th>
+                  <th><b>Bust</b></th>
+                </tr>
+              </thead>
+              <tbody id="game_verify_table"></tbody>
+            </table>
+          </div>
+          <label class="seq-red-text ml-2">Max Red Sequence Count: <span
+              id="game_max_red_sequence_count_in_table">0</span></label>
+        </div>
+        <div class="is-hidden">
+          <div class="columns">
+            <div class="column">
+              <h4 class="title is-4">Range Analysis</h4>
+              <div class="range-analysis"></div>
+              <label class="seq-red-text">Max Red Sequence Count: <span
+                  id="game_max_red_sequence_count_in_chart">0</span></label>
+            </div>
+            <div class="column">
+              <canvas id="chartjs_container" width="1400" height="500"></canvas>
+            </div>
+          </div>
+          <label>※ <b>x105.83/49</b> means that <b>x105.39</b> appeared <b>49</b> rounds before from now on.</label>
+          <a target="_blank" href="https://github.com/azvast/bc.game-graph">https://github.com/azvast/bc.game-graph</a>
+          <a target="_blank" href="https://github.com/azvast/bcgame-analyzer-extension">bc.game-analyzer-extension</a>
+          <a target="_blank" href="https://github.com/azvast/ethercrash-analyzer-extension">ethercrash-analyzer-extension</a>
+          <br />
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script src="./index.js"></script>
-  </body>
+  <script src="./index.js"></script>
+</body>
+
 </html>

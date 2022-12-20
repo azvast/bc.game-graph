@@ -43,7 +43,7 @@ var gameRedThresold = 2.0;
 
 $('#game_verify_submit').on('click', () => {
   gameRedThresold = Number($('#game_red_thresold_input').val());
-  
+
   const gameHash = $('#game_hash_input').val();
   const gameAmount = Number($('#game_amount_input').val());
   verify(gameHash, gameAmount);
@@ -402,4 +402,29 @@ $('#ethercrash_salt_button').on('click', () => {
 
 $('#bcgame_salt_button').on('click', () => {
   $('#game_salt_input').val('000000000000000000030587dd9ded1fcc5d603652da58deb670319bd2e09445');
+});
+
+var getUrlParameter = function getUrlParameter(sParam) {
+  var sPageURL = window.location.search.substring(1),
+    sURLVariables = sPageURL.split('&'),
+    sParameterName,
+    i;
+
+  for (i = 0; i < sURLVariables.length; i++) {
+    sParameterName = sURLVariables[i].split('=');
+
+    if (sParameterName[0] === sParam) {
+      return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+    }
+  }
+  return false;
+};
+
+$(function () {
+  var game = getUrlParameter('game');
+  if (game === 'ethercrash') {
+    $('#game_salt_input').val('0xd8b8a187d5865a733680b4bf4d612afec9c6829285d77f438cd70695fb946801');
+  } else if (game === 'bustabit') {
+    $('#game_salt_input').val('0000000000000000004d6ec16dafe9d8370958664c1dc422f452892264c59526');
+  }
 });
