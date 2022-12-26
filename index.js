@@ -8,7 +8,7 @@ window.addEventListener('message', (event) => {
     verify(event.data?.hash, gameAmount);
 
     if (userId) {
-      document.getElementById('ethercrash_user_rounds').contentDocument.location.reload(true);
+      document.getElementById('ethercrash_user_rounds').attr('src', `https://www.ethercrash.io/user/${userId}`);
     }
   }
 });
