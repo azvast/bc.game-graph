@@ -1,9 +1,13 @@
+var userId = '';
+
 // Update hash
 window.addEventListener('message', (event) => {
   if (event.data?.hash) {
     $('#game_hash_input').val(event.data?.hash);
     const gameAmount = Number($('#game_amount_input').val());
     verify(event.data?.hash, gameAmount);
+
+    $('#ethercrash_user_rounds').attr('src', `https://www.ethercrash.io/user/${userId}`);
   }
 });
 
@@ -427,5 +431,11 @@ $(function () {
     $('#game_salt_input').val('0xd8b8a187d5865a733680b4bf4d612afec9c6829285d77f438cd70695fb946801');
   } else if (game === 'bustabit') {
     $('#game_salt_input').val('0000000000000000004d6ec16dafe9d8370958664c1dc422f452892264c59526');
+  }
+
+  userId = getUrlParameter('userid');
+  if (userId) {
+    $('#ethercrash_user_rounds').attr('src', `https://www.ethercrash.io/user/${userId}`);
+    $('#user_rounds_tab').removeClass('is-hidden');
   }
 });
