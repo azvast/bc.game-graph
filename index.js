@@ -7,7 +7,9 @@ window.addEventListener('message', (event) => {
     const gameAmount = Number($('#game_amount_input').val());
     verify(event.data?.hash, gameAmount);
 
-    $('#ethercrash_user_rounds').attr('src', `https://www.ethercrash.io/user/${userId}`);
+    if (userId) {
+      document.getElementById('ethercrash_user_rounds').contentDocument.location.reload(true);
+    }
   }
 });
 
