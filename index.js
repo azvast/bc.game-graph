@@ -146,7 +146,7 @@ function gameResultsAdd(data, amount) {
 
   // Range Analysis
   $range.empty();
-  [5, 10, 20, 50, 100].forEach((v) => showRangeAnalysis(data, v));
+  [3, 5, 10, 20, 50, 100].forEach((v) => showRangeAnalysis(data, v));
 
   showSequenceRed();
   drawChart();
