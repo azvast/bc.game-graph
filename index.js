@@ -46,6 +46,7 @@ var $range = $('.range-analysis');
 var isVerifying = false;
 var data = [];
 var gameRedThresold = 2.0;
+var duration = 0;
 
 $('#game_verify_submit').on('click', () => {
   gameRedThresold = Number($('#game_red_thresold_input').val());
@@ -60,12 +61,14 @@ function verify(gameHash, gameAmount) {
   isVerifying = true;
   enterLoadState();
   $range.empty();
+  duration = 0;
 
   data = [];
   var index = 0;
   for (let item of gameResults(gameHash, gameAmount)) {
     setTimeout(addTableRow.bind(null, item.hash, item.bust, data.length), data.length * 1);
     data.unshift({ ...item, index: ++index });
+    duration += Math.log(item.bust || 1) / 0.00006;
   }
 
   // Range Analysis
@@ -142,6 +145,7 @@ function gameResultsAdd(data, amount) {
   for (let item of gameResults(hash, amount)) {
     setTimeout(addTableRow.bind(null, item.hash, item.bust, data.length), data.length * 1);
     data.unshift({ ...item, index: ++index });
+    duration += Math.log(item.bust || 1) / 0.00006;
   }
 
   // Range Analysis
@@ -167,6 +171,7 @@ function showSequenceRed() {
 
   $('#game_max_red_sequence_count_in_table').text(max_seq_red_count);
   $('#game_max_red_sequence_count_in_chart').text(max_seq_red_count);
+  $('#game_duration').text(msToTime(duration));
 }
 
 $('#chart_plus_1_submit').on('click', () => {
@@ -410,6 +415,19 @@ $('#ethercrash_salt_button').on('click', () => {
 $('#bcgame_salt_button').on('click', () => {
   $('#game_salt_input').val('000000000000000000030587dd9ded1fcc5d603652da58deb670319bd2e09445');
 });
+
+function msToTime(duration) {
+  let seconds = Math.floor((duration / 1000) % 60),
+      minutes = Math.floor((duration / (1000 * 60)) % 60),
+      hours = Math.floor((duration / (1000 * 60 * 60)) % 24),
+      days = Math.floor(duration / (1000 * 60 * 60 * 24));
+
+  hours = (hours < 10) ? "0" + hours : hours;
+  minutes = (minutes < 10) ? "0" + minutes : minutes;
+  seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+  return (days > 0 ? days + "d " : "") + hours + "h " + minutes + "m " + seconds + "s";
+}
 
 var getUrlParameter = function getUrlParameter(sParam) {
   var sPageURL = window.location.search.substring(1),
