@@ -459,3 +459,14 @@ $(function () {
     $('#user_rounds_tab').removeClass('is-hidden');
   }
 });
+
+// toggle theme
+$('#toggle_theme_button').on('click', () => {
+  const isDarkMode = $('body').hasClass('dark');
+  if (isDarkMode) {
+    $('body').removeClass('dark');
+  } else {
+    $('body').addClass('dark');
+  }
+});
+
