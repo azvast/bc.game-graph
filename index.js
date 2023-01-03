@@ -159,19 +159,24 @@ function gameResultsAdd(data, amount) {
 function showSequenceRed() {
   var seq_red_count = 0;
   var max_seq_red_count = 0;
+  var total_red_count = 0;
 
   data.forEach(d => {
     if (d.bust < gameRedThresold) {
       seq_red_count++;
     } else {
       max_seq_red_count = Math.max(seq_red_count, max_seq_red_count);
+      total_red_count += seq_red_count;
       seq_red_count = 0;
     }
   });
 
   $('#game_max_red_sequence_count_in_table').text(max_seq_red_count);
   $('#game_max_red_sequence_count_in_chart').text(max_seq_red_count);
-  $('#game_duration').text(msToTime(duration));
+
+  var total_blue_count = data.length - total_red_count;
+  var house_edge = (total_blue_count - total_red_count) * 100 / data.length;
+  $('#game_info').text(`Total Duration: ${msToTime(duration)}, Blue: ${total_blue_count}, Red: ${total_red_count}, Sub: ${total_blue_count - total_red_count}, House Edge: ${house_edge.toFixed(2)}%`);
 }
 
 $('#chart_plus_1_submit').on('click', () => {
