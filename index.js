@@ -423,9 +423,9 @@ $('#bcgame_salt_button').on('click', () => {
 
 function msToTime(duration) {
   let seconds = Math.floor((duration / 1000) % 60),
-      minutes = Math.floor((duration / (1000 * 60)) % 60),
-      hours = Math.floor((duration / (1000 * 60 * 60)) % 24),
-      days = Math.floor(duration / (1000 * 60 * 60 * 24));
+    minutes = Math.floor((duration / (1000 * 60)) % 60),
+    hours = Math.floor((duration / (1000 * 60 * 60)) % 24),
+    days = Math.floor(duration / (1000 * 60 * 60 * 24));
 
   hours = (hours < 10) ? "0" + hours : hours;
   minutes = (minutes < 10) ? "0" + minutes : minutes;
@@ -475,3 +475,6 @@ $('#toggle_theme_button').on('click', () => {
   }
 });
 
+function websiteVisits(response) {
+  document.querySelector("#visits").textContent = response.value;
+}
