@@ -418,7 +418,7 @@ $('#ethercrash_salt_button').on('click', () => {
 });
 
 $('#bcgame_salt_button').on('click', () => {
-  $('#game_salt_input').val('000000000000000000030587dd9ded1fcc5d603652da58deb670319bd2e09445');
+  $('#game_salt_input').val('0000000000000000000301e2801a9a9598bfb114e574a91a887f2132f33047e6');
 });
 
 function msToTime(duration) {
